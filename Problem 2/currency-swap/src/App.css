@@ -1,0 +1,50 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.ant-input-number-input {
+  padding: 0px !important;
+  font-weight: 500 !important;
+  height: 32px !important;
+  font-size: 24px !important;
+}
+
+.ant-select-selector {
+  /* padding: 0 !important; */
+  border: none !important;
+  font-size: 24px !important;
+  text-align: start !important;
+}
+
+.ant-select-selector .ant-select-selection-search-input {
+  font-size: 24px !important;
+  font-weight: 500 !important;
+}
+
+.ant-select.ant-select-selection-item {
+  height: 32px !important;
+}
+
+.ant-select-dropdown {
+  padding: 0 !important;
+}
+
+.ant-form-item-explain-error {
+  color: #ff4d4f !important;
+  text-align: start !important;
+  position: absolute !important;
+  bottom: -32px !important;
+  left: -16px !important;
+}
