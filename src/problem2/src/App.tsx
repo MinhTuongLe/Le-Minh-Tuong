@@ -117,6 +117,7 @@ function App() {
             fontSize: 40,
             fontWeight: "500",
             margin: 0,
+            textTransform: "uppercase",
           }}
         >
           {`${amount || 0} ${fromToken?.currency} to ${toToken?.currency}`}

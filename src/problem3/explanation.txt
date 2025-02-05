@@ -14,7 +14,9 @@ const WalletPage: React.FC<Props> = (props: Props) => {
   const balances = useWalletBalances();
   const prices = usePrices();
 
+  // Use the correct data type instead of 'any'
   const getPriority = (blockchain: any): number => {
+    // Modify handling to reduce conditions
     switch (blockchain) {
       case "Osmosis":
         return 100;
@@ -31,11 +33,13 @@ const WalletPage: React.FC<Props> = (props: Props) => {
     }
   };
 
+  // Rewrite the syntax to be more concise, can remove useMemo if balances and prices do not change frequently
   const sortedBalances = useMemo(() => {
     return balances
       .filter((balance: WalletBalance) => {
         const balancePriority = getPriority(balance.blockchain);
-        if (lhsPriority > -99) {
+        // The variable 'lhsPriority' does not exist
+        if (lhsPriority > -99) { 
           if (balance.amount <= 0) {
             return true;
           }
@@ -53,6 +57,7 @@ const WalletPage: React.FC<Props> = (props: Props) => {
       });
   }, [balances, prices]);
 
+  // No need to separate
   const formattedBalances = sortedBalances.map((balance: WalletBalance) => {
     return {
       ...balance,
@@ -66,7 +71,7 @@ const WalletPage: React.FC<Props> = (props: Props) => {
       return (
         <WalletRow
           className={classes.row}
-          key={index}
+          key={index} // Use 'currency' as key to avoid unnecessary re-renders
           amount={balance.amount}
           usdValue={usdValue}
           formattedAmount={balance.formatted}
