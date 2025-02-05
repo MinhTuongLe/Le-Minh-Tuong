@@ -52,7 +52,7 @@ const CustomFormItem: React.FC<CustomFormItemProps> = ({
         border: `1px solid ${BORDER_COLOR}`,
         backgroundColor: BACKGROUND_COLOR,
         flex: 1,
-        minWidth: 0,
+        minWidth: 250,
         cursor: "text",
         ...customStyle,
       }}

@@ -4,7 +4,8 @@ import { SwapOutlined } from "@ant-design/icons";
 import "./App.css";
 import CustomFormItem from "./components/CustomFormItem";
 import { CustomInputTypes } from "./types";
-import { BORDER_COLOR, TEXT_COLOR_1 } from "./config";
+import { BACKGROUND_COLOR, BORDER_COLOR, TEXT_COLOR_1 } from "./config";
+import { useDeviceTypes } from "./hooks/useDeviceTypes";
 
 const { Title, Text } = Typography;
 
@@ -17,6 +18,9 @@ interface Token {
 function App() {
   // hooks
   const [form] = Form.useForm();
+  const { isMobile, isTablet, isLargeTablet } = useDeviceTypes();
+
+  const isResponsive = isMobile || isTablet || isLargeTablet;
 
   const initialValues = {
     amount: 1,
@@ -126,7 +130,15 @@ function App() {
       </Space>
 
       <Form form={form} layout="vertical" initialValues={initialValues}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: isResponsive ? undefined : "center",
+            gap: 8,
+            flexWrap: "wrap",
+            flexDirection: isResponsive ? "column" : "row",
+          }}
+        >
           <CustomFormItem
             label="Amount to send"
             value={amount}
@@ -134,49 +146,79 @@ function App() {
             type={CustomInputTypes.INPUT_NUMBER}
             isLoading={loading}
             formField={"amount"}
+            customStyle={{}}
           />
 
-          <div style={{ position: "relative", flex: 1 }}>
-            <CustomFormItem
-              label="From"
-              value={fromToken?.currency}
-              onChange={handleFromTokenChange}
-              type={CustomInputTypes.SELECTION}
-              options={tokenOptions}
-              customStyle={{ paddingRight: 32 }}
-              isLoading={loading}
-            />
+          <div
+            style={{
+              position: "relative",
+              flex: 2,
+              flexWrap: "wrap",
+              gap: 8,
+              display: "flex",
+              alignItems: "center",
+              flexDirection: isMobile || isTablet ? "column" : "row",
+            }}
+          >
             <div
               style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
-                border: `1px solid ${BORDER_COLOR}`,
-                backgroundColor: "white",
+                position: "relative",
+                flex: 1,
+                flexWrap: "wrap",
+                gap: 8,
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
-                position: "absolute",
-                top: "50%",
-                right: -24,
-                transform: "translateY(-50%)",
-                cursor: "pointer",
+                flexDirection: isMobile || isTablet ? "column" : "row",
+                width: isMobile || isTablet ? "100%" : undefined,
               }}
-              onClick={handleSwapToken}
             >
-              <SwapOutlined style={{ fontSize: 24 }} />
+              <CustomFormItem
+                label="From"
+                value={fromToken?.currency}
+                onChange={handleFromTokenChange}
+                type={CustomInputTypes.SELECTION}
+                options={tokenOptions}
+                customStyle={{
+                  paddingRight: 32,
+                  width: isMobile || isTablet ? "100%" : undefined,
+                }}
+                isLoading={loading}
+              />
+              <div
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  border: `1px solid ${BORDER_COLOR}`,
+                  backgroundColor: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  position: isMobile || isTablet ? undefined : "absolute",
+                  top: "50%",
+                  right: -24,
+                  transform:
+                    isMobile || isTablet ? undefined : "translateY(-50%)",
+                  cursor: "pointer",
+                }}
+                onClick={handleSwapToken}
+              >
+                <SwapOutlined style={{ fontSize: 24 }} />
+              </div>
             </div>
+            <CustomFormItem
+              label="To"
+              value={toToken?.currency}
+              onChange={handleToTokenChange}
+              type={CustomInputTypes.SELECTION}
+              options={tokenOptions}
+              customStyle={{
+                paddingLeft: 32,
+                width: isMobile || isTablet ? "100%" : undefined,
+              }}
+              isLoading={loading}
+            />
           </div>
-
-          <CustomFormItem
-            label="To"
-            value={toToken?.currency}
-            onChange={handleToTokenChange}
-            type={CustomInputTypes.SELECTION}
-            options={tokenOptions}
-            customStyle={{ paddingLeft: 32 }}
-            isLoading={loading}
-          />
         </div>
 
         <Space
